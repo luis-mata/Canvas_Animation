@@ -68,7 +68,18 @@
 		}	
 	
 	
-		if(num == 5)
+		//if(num == 5)
+		//{
+		//	this.x = x;
+		//	this.y = y;
+		//	this.type = type;
+		//	this.num = num;
+		//	this.color = color;
+		//	this.dx = Math.random() * 10 - 5;
+		//	this.dy = Math.random() * 10 - 5;
+		//}
+		
+		else if(num == 5)
 		{
 			this.x = x;
 			this.y = y;
@@ -78,24 +89,42 @@
 			this.dx = Math.random() * 10 - 5;
 			this.dy = Math.random() * 10 - 5;
 		}
-		
-		else if(num == 6)
-		{
-			this.x = x;
-			this.y = y;
-			this.type = type;
-			this.num = num;
-			this.color = color;
-			this.dx = Math.random() * 20 - 10;
-			this.dy = Math.random() * 20 - 10;
-		}
 	}
 	  
     function init() {
         canvas = document.getElementById('canvas');
-        context = canvas.getContext("2d");
+        context = canvas.getContext("2d")
 		
-		
+		context.font = "100px Comic Sans";
+			context.textAlign = 'center';
+				var i, n = 0, 
+				components = [0, 0, 0], 
+				operations = [1, 2, 3];
+				
+			function draw(){
+	
+			context.fillStyle = "rgb("+components.join(',')+")";
+			context.textBaseline = 'top'
+			  
+			context.save();
+            context.translate(700, 0);
+  		    context.fillText('Click mouse to destroy', 0, components[1]);
+            context.restore();
+			context.fillStyle= "black"
+			context.save();
+			context.translate(500, 400);
+			context.rotate(0.01*n++);
+			context.textBaseline = 'center';
+			context.fillText('Move mouse to create', 0, 0);
+			context.restore();
+			  
+			for(i = 0; i < 3; i++) {
+				components[i] += operations[i];
+				if ((components[i] >= 256) || (components[i] <= 0)) operations[i] *= -1;
+			}  
+				setTimeout(draw, 10);
+			}
+				draw();
         window.addEventListener('resize', resizeCanvas, false);
         window.addEventListener('orientationchange', resizeCanvas, false);
         resizeCanvas();
@@ -111,12 +140,21 @@
 		
     }
 	
+	function drawText() {
+		
+		context.font = "30px Arial";
+		context.fillText("", 500, 500);
+		context.textAlign = 'center';
+		context.textBaseLine = 'middle';
+	
+	}
+	
 	function getMousePos(x, y) {
 		
 		var colors = ["red", "green", "blue", "orange", "purple", "yellow"];
 		var type = 'xor';
 		var color = colors[Math.floor(Math.random() * colors.length)];
-		var num = Math.floor(Math.random() * 6 + 1);
+		var num = Math.floor(Math.random() * 5 + 1);
 		shapes.push(new Shape(x, y, color, type, num));
 		
 		for(var i = 0; i < shapes.length; i++)
@@ -126,12 +164,6 @@
 		
 	}
 	
-	function drawText() {
-		
-		context.font = "30px Arial";
-		context.fillText("", 500, 500);
-	
-	}
 	
 	function handleClick(x, y) {
 	    var found = false;
@@ -205,22 +237,22 @@
 			shape.y += shape.dy;
 		}
 		
-		if(shape.num == 5)
-		{
-			context.beginPath();
-			context.globalCompositeOperation = shape.type;
-			context.arc(shape.x, shape.x, shape.y, shape.y, Math.PI*2, true);
-			context.fillStyle = "grey"
-			context.fill();
-			if (shape.x + shape.dx > canvas.width || shape.x + shape.dx < 0)
-				shape.dx = -shape.dx;
-			if (shape.y + shape.dy > canvas.height || shape.y + shape.dy < 0)
-				shape.dy = -shape.dy;
-			shape.x += shape.dx;
-			shape.y += shape.dy;
-		}
+		//if(shape.num == 5)
+		//{
+		//	context.beginPath();
+		//	context.globalCompositeOperation = shape.type;
+		//	context.arc(shape.x, shape.x, shape.y, shape.y, Math.PI*2, true);
+		//	context.fillStyle = "grey"
+		//	context.fill();
+		//	if (shape.x + shape.dx > canvas.width || shape.x + shape.dx < 0)
+		//		shape.dx = -shape.dx;
+		//	if (shape.y + shape.dy > canvas.height || shape.y + shape.dy < 0)
+		//		shape.dy = -shape.dy;
+		//	shape.x += shape.dx;
+		//	shape.y += shape.dy;
+		//}
 		
-		else if(shape.num == 6)
+		else if(shape.num == 5)
 		{
 			context.beginPath();
 			context.globalCompositeOperation = shape.type;
@@ -258,6 +290,7 @@
 		return (degrees * Math.PI)/180;
 	}
 	window.onload = init;
+	
 
 </script>
 </head>
