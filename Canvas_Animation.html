@@ -241,7 +241,8 @@
 		{
 			context.beginPath();
 			context.globalCompositeOperation = shape.type;
-			context.arc(shape.x, shape.x, shape.y, shape.y, Math.PI*2, true);
+			context.arc(shape.x, shape.y+68, 34.5, 5.75, 3.66, false);
+			context.quadraticCurveTo(shape.x-3.5, shape.y+15, shape.x, shape.y);
 			context.fillStyle = "grey"
 			context.fill();
 			if (shape.x + shape.dx > canvas.width || shape.x + shape.dx < 0)
