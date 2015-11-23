@@ -1,0 +1,266 @@
+<!doctype html>
+<html>
+<head>
+
+<style>
+
+
+</style>
+
+<title>Interactive Canvas</title>
+<script>
+
+	var canvas;
+	var context;
+	var shapes = [];
+
+	
+	function Shape(x, y, color, type, num) {
+	
+		if(num == 1)
+		{
+			this.x = x;
+			this.y = y;
+			this.type = type;
+			this.r = 25;
+			this.num = num;
+			this.color = color;
+			this.dx = Math.random() * 10 - 5;
+			this.dy = Math.random() * 10 - 5;
+		}
+		
+		if(num == 2)
+		{
+			this.x = x;
+			this.y = y;
+			this.type = type;
+			this.width = 25;
+			this.height = 25;
+			this.num = num;
+			this.color = color;
+			this.dx = Math.random() * 4 - 2;
+			this.dy = Math.random() * 4 - 2;
+		}
+		
+		if(num == 3)
+		{
+			this.x = x;
+			this.y = y;
+			this.type = type;
+			this.r = 25;  
+			this.num = num;
+			this.color = color;
+			this.dx = Math.random() * 2 - 1;
+			this.dy = Math.random() * 2 - 1;
+		}
+		
+		if(num == 4)
+		{
+			this.x = x;
+			this.y = y;
+			this.type = type;
+			this.width = 100;
+			this.height = 10;
+			this.num = num;
+			this.color = color;
+			this.dx = Math.random() * 2 - 1;
+			this.dy = Math.random() * 2 - 1;
+		}	
+	
+	
+		if(num == 5)
+		{
+			this.x = x;
+			this.y = y;
+			this.type = type;
+			this.num = num;
+			this.color = color;
+			this.dx = Math.random() * 10 - 5;
+			this.dy = Math.random() * 10 - 5;
+		}
+		
+		else if(num == 6)
+		{
+			this.x = x;
+			this.y = y;
+			this.type = type;
+			this.num = num;
+			this.color = color;
+			this.dx = Math.random() * 20 - 10;
+			this.dy = Math.random() * 20 - 10;
+		}
+	}
+	  
+    function init() {
+        canvas = document.getElementById('canvas');
+        context = canvas.getContext("2d");
+		
+		
+        window.addEventListener('resize', resizeCanvas, false);
+        window.addEventListener('orientationchange', resizeCanvas, false);
+        resizeCanvas();
+		canvas.onclick = function(event) {
+			handleClick(event.clientX, event.clientY);
+		};
+		
+		canvas.addEventListener('mousemove', function(e){
+			getMousePos(e.clientX, e.clientY);
+		
+		}, false);
+		setInterval(resizeCanvas, 5);
+		
+    }
+	
+	function getMousePos(x, y) {
+		
+		var colors = ["red", "green", "blue", "orange", "purple", "yellow"];
+		var type = 'xor';
+		var color = colors[Math.floor(Math.random() * colors.length)];
+		var num = Math.floor(Math.random() * 6 + 1);
+		shapes.push(new Shape(x, y, color, type, num));
+		
+		for(var i = 0; i < shapes.length; i++)
+		{
+			drawShape(shapes[i]);
+		}
+		
+	}
+	
+	function drawText() {
+		
+		context.font = "30px Arial";
+		context.fillText("", 500, 500);
+	
+	}
+	
+	function handleClick(x, y) {
+	    var found = false;
+		for (var i = 0; i < shapes.length; i++) {
+			d = Math.sqrt((shapes[i].x - x) * (shapes[i].x - x) + (shapes[i].y - y) * (shapes[i].y - y));
+			if (d <= 130) {
+				shapes.splice(i, 1);
+				found = true;
+			}
+		}
+	}
+	function drawShape(shape) {
+	
+		if(shape.num == 1)
+		{
+			context.beginPath();
+			context.globalCompositeOperation = shape.type;
+			context.arc(shape.x, shape.y, shape.r, 0, degreesToRadians(360), true);
+			context.fillStyle = shape.color;
+			context.fill();
+			if (shape.x + shape.dx > canvas.width || shape.x + shape.dx < 0)
+				shape.dx = -shape.dx;
+			if (shape.y + shape.dy > canvas.height || shape.y + shape.dy < 0)
+				shape.dy = -shape.dy;
+			shape.x += shape.dx;
+			shape.y += shape.dy;
+		}
+		
+		if(shape.num == 2)
+		{
+			context.beginPath();
+			context.globalCompositeOperation = shape.type;
+			context.rect(shape.x, shape.y, shape.width, shape.height);
+			context.fillStyle = shape.color;
+			context.fill();
+			if (shape.x + shape.dx > canvas.width || shape.x + shape.dx < 0)
+				shape.dx = -shape.dx;
+			if (shape.y + shape.dy > canvas.height || shape.y + shape.dy < 0)
+				shape.dy = -shape.dy;
+			shape.x += shape.dx;
+			shape.y += shape.dy;
+		}
+		
+		if(shape.num == 3)
+		{
+			context.beginPath();
+			context.globalCompositeOperation = shape.type;
+			context.arc(shape.x, shape.y, shape.r, 0, degreesToRadians(270), true);
+			context.fillStyle = shape.color;
+			context.fill();
+			if (shape.x + shape.dx > canvas.width || shape.x + shape.dx < 0)
+				shape.dx = -shape.dx;
+			if (shape.y + shape.dy > canvas.height || shape.y + shape.dy < 0)
+				shape.dy = -shape.dy;
+			shape.x += shape.dx;
+			shape.y += shape.dy;
+		}
+		
+		if(shape.num == 4)
+		{
+			context.beginPath();
+			context.globalCompositeOperation = shape.type;
+			context.rect(shape.x, shape.y, shape.width, shape.height);
+			context.fillStyle = shape.color;
+			context.fill();
+			if (shape.x + shape.dx > canvas.width || shape.x + shape.dx < 0)
+				shape.dx = -shape.dx;
+			if (shape.y + shape.dy > canvas.height || shape.y + shape.dy < 0)
+				shape.dy = -shape.dy;
+			shape.x += shape.dx;
+			shape.y += shape.dy;
+		}
+		
+		if(shape.num == 5)
+		{
+			context.beginPath();
+			context.globalCompositeOperation = shape.type;
+			context.arc(shape.x, shape.x, shape.y, shape.y, Math.PI*2, true);
+			context.fillStyle = "grey"
+			context.fill();
+			if (shape.x + shape.dx > canvas.width || shape.x + shape.dx < 0)
+				shape.dx = -shape.dx;
+			if (shape.y + shape.dy > canvas.height || shape.y + shape.dy < 0)
+				shape.dy = -shape.dy;
+			shape.x += shape.dx;
+			shape.y += shape.dy;
+		}
+		
+		else if(shape.num == 6)
+		{
+			context.beginPath();
+			context.globalCompositeOperation = shape.type;
+			context.moveTo(shape.x, shape.y);
+			context.lineTo(shape.x + 15, shape.y + 30);
+			context.lineTo(shape.x - 45, shape.y + 45);
+			context.fillStyle = shape.color;
+			context.fill();
+			if (shape.x + shape.dx > canvas.width || shape.x + shape.dx < 0)
+				shape.dx = -shape.dx;
+			if (shape.y + shape.dy > canvas.height || shape.y + shape.dy < 0)
+				shape.dy = -shape.dy;
+			shape.x += shape.dx;
+			shape.y += shape.dy;
+		}
+		
+		
+	}
+    function resizeCanvas() {
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+		fillBackgroundColor();
+		for (var i = 0; i < shapes.length; i++) {
+			drawShape(shapes[i]);
+		}
+		drawText();
+		
+    }
+	function fillBackgroundColor() {
+		context.globalCompositeOperation = 'xor';
+		context.fillStyle = 'grey';
+		context.fillRect(0, 0, canvas.width, canvas.height);
+	}
+	function degreesToRadians(degrees) {
+		return (degrees * Math.PI)/180;
+	}
+	window.onload = init;
+
+</script>
+</head>
+<body>
+<canvas id='canvas' width=500 height=500></canvas>
+</body>	  
